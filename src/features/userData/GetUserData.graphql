@@ -1,0 +1,17 @@
+query GetUserData($login: String!, $first: Int!, $after: String) {
+    user(login: $login) {
+        id
+        repositories(first: $first, privacy: PUBLIC, after: $after) {
+            edges {
+                cursor
+                node {
+                    id
+                    name
+                }
+            }
+            pageInfo {
+                hasNextPage
+            }
+        }
+    }
+}
