@@ -15,6 +15,7 @@
         "chakra-ui-autocomplete": "^1.4.5",
         "framer-motion": "^6.5.1",
         "graphql-request": "^5.0.0",
+        "dotenv": "^16.0.3",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-redux": "^8.0.4",
@@ -31,8 +32,8 @@
         "lint": "eslint src/**/*.{ts,tsx}",
         "lint:fix": "eslint --fix 'src/**/*.{ts,tsx}'",
         "format": "prettier --write 'src/**/*.{ts,tsx,css,md,json,yml}' --config ./.prettierrc.yml",
-        "watch-codegen": "graphql-codegen --config codegen.yml --watch 'src/**/*.graphql'",
-        "graphql-codegen": "graphql-codegen --config codegen.yml"
+        "watch-codegen": "graphql-codegen --require dotenv/config --config codegen.yml --watch 'src/**/*.graphql'",
+        "graphql-codegen": "graphql-codegen --require dotenv/config --config codegen.yml"
     },
     "eslintConfig": {
         "extends": [

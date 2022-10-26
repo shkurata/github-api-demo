@@ -2,9 +2,9 @@ import { createApi } from '@reduxjs/toolkit/query/react'
 import { graphqlRequestBaseQuery } from '@rtk-query/graphql-request-base-query'
 
 const baseQuery = graphqlRequestBaseQuery({
-    url: 'https://api.github.com/graphql',
+    url: `${process.env.REACT_APP_GITHUB_URL}`,
     requestHeaders: {
-        authorization: 'Bearer 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',
+        authorization: `Bearer ${process.env.REACT_APP_GITHUB_TOKEN}`,
     },
 })
 

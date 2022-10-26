@@ -1,8 +1,8 @@
 overwrite: true
 schema:
-    - https://api.github.com/graphql:
+    - ${REACT_APP_GITHUB_URL}:
           headers:
-              authorization: Bearer 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
+              authorization: Bearer ${REACT_APP_GITHUB_TOKEN}
 documents: src/**/*.graphql
 watchConfig:
     usePolling: true
