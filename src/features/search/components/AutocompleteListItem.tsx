@@ -1,7 +1,12 @@
 import { WrapItem, Center, Avatar, Box } from '@chakra-ui/react'
-import { AutoCompleteListItemProps } from '../interfaces'
+import { BaseUserInfo } from '../interfaces'
 
-const AutocompleteListItem = ({ avatarUrl, login, name, handleClick }: AutoCompleteListItemProps) => {
+type AutoCompleteListItemProps = BaseUserInfo & {
+    handleClick: (login: string) => void
+}
+
+const AutocompleteListItem = (props: AutoCompleteListItemProps) => {
+    const { avatarUrl, login, name, handleClick } = props
     const handleSelect = (e: React.MouseEvent<HTMLElement>): void => {
         console.log('handleSelect')
         handleClick(login)

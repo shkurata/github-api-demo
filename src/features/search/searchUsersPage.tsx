@@ -2,7 +2,7 @@ import { Button, Container, FormControl, FormLabel, Input } from '@chakra-ui/rea
 import React, { useState } from 'react'
 import { User } from 'src/app/api/types.generated'
 import AutocompleteList from './components/AutocompleteList'
-import { AutoCompleteListItemProps } from './interfaces'
+import { BaseUserInfo } from './interfaces'
 import { SearchUsersQuery, useSearchUsersQuery } from './SearchUsers.generated'
 
 const SearchUsersPage = () => {
@@ -15,27 +15,27 @@ const SearchUsersPage = () => {
         return <div>{error.message}</div>
     }
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
         console.log('handleChange')
         setSearchTerm(e.target.value)
         refetch()
         e.preventDefault()
     }
 
-    const handleSelect = (login: string): void => {
+    function handleSelect(login: string): void {
         setSearchTerm(login)
         setUserSelected(true)
         setShowAutocomplete(false)
     }
 
-    const handleOutsideClick = (): void => {
+    function handleOutsideClick(): void {
         console.log('handleOutsideClick')
         if (!userSelected) {
             setShowAutocomplete(false)
         }
     }
 
-    const mapSearchResults = (data: SearchUsersQuery | undefined): AutoCompleteListItemProps[] => {
+    function mapSearchResults(data: SearchUsersQuery | undefined): BaseUserInfo[] {
         if (!data?.search || !data?.search.nodes?.length) {
             return []
         }
@@ -45,7 +45,6 @@ const SearchUsersPage = () => {
                 avatarUrl,
                 login,
                 name,
-                handleClick: handleSelect,
             }
         })
     }
@@ -64,10 +63,14 @@ const SearchUsersPage = () => {
                     onChange={handleChange}
                     onFocus={(e) => setShowAutocomplete(true)}
                 />
-                {userSelected && <Button type='submit'>Load user data</Button>}
+                {!showAutocomplete && <Button type='submit'>Load user data</Button>}
             </FormControl>
             {data && showAutocomplete && (
-                <AutocompleteList handleOutsideClick={handleOutsideClick} users={mapSearchResults(data)} />
+                <AutocompleteList
+                    handleOutsideClick={handleOutsideClick}
+                    handleSelect={handleSelect}
+                    users={mapSearchResults(data)}
+                />
             )}
         </Container>
     )
