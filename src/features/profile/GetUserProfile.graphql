@@ -1,9 +1,10 @@
 query GetUserProfile($login: String!) {
     user(login: $login) {
         id
-        avatarUrl(size: 100)
+        avatarUrl(size: 300)
         email
         url
+        name
         websiteUrl
         repositories {
             totalCount

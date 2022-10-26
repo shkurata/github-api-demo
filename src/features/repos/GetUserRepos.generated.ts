@@ -2,7 +2,7 @@
 
 import * as Types from '../../app/api/types.generated';
 
-import { api } from '../../app/api/baseApi';
+import { api } from 'src/app/api/baseApi';
 module.hot?.accept();
 export type GetUserReposQueryVariables = Types.Exact<{
   login: Types.Scalars['String'];

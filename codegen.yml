@@ -36,7 +36,7 @@ generates:
                   content: 'module.hot?.accept();'
             - typescript-operations
             - typescript-rtk-query:
-                  importBaseApiFrom: ../../app/api/baseApi
+                  importBaseApiFrom: src/app/api/baseApi
                   exportHooks: true
                   overrideExisting: 'module.hot?.status() === "apply"'
         config:
