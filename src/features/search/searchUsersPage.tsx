@@ -1,24 +1,29 @@
-import { Button, Container, FormControl, FormLabel, Input } from '@chakra-ui/react'
+import { Button, Container, FormControl, FormErrorMessage, FormLabel, Input } from '@chakra-ui/react'
 import React, { useState } from 'react'
-import { User } from 'src/app/api/types.generated'
 import AutocompleteList from './components/AutocompleteList'
 import { BaseUserInfo } from './interfaces'
-import { SearchUsersQuery, useSearchUsersQuery } from './SearchUsers.generated'
+import { SearchUsersQuery, useLazySearchUsersQuery } from './SearchUsers.generated'
+import { transformUserList } from './utils'
 
 const SearchUsersPage = () => {
     const [searchTerm, setSearchTerm] = useState('')
     const [userSelected, setUserSelected] = useState(false)
     const [showAutocomplete, setShowAutocomplete] = useState(true)
-    const { error, isLoading, data, refetch } = useSearchUsersQuery({ query: searchTerm }, { skip: !searchTerm })
+    const [trigger, { data, currentData, error }, lastPromiseQuery] = useLazySearchUsersQuery()
 
     if (error) {
         return <div>{error.message}</div>
     }
 
-    function handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
-        console.log('handleChange')
-        setSearchTerm(e.target.value)
-        refetch()
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>, data: SearchUsersQuery | undefined): void {
+        const { value } = e.target
+        setSearchTerm(value)
+        if (value.length > 0) {
+            trigger({ query: value }).unwrap()
+            setShowAutocomplete(true)
+        } else {
+            setShowAutocomplete(false)
+        }
         e.preventDefault()
     }
 
@@ -29,24 +34,30 @@ const SearchUsersPage = () => {
     }
 
     function handleOutsideClick(): void {
-        console.log('handleOutsideClick')
-        if (!userSelected) {
-            setShowAutocomplete(false)
-        }
+        setShowAutocomplete(false)
     }
 
-    function mapSearchResults(data: SearchUsersQuery | undefined): BaseUserInfo[] {
-        if (!data?.search || !data?.search.nodes?.length) {
-            return []
+    function createAutoComplete(data: SearchUsersQuery | undefined): JSX.Element | null {
+        if (!showAutocomplete || !data) {
+            return null
         }
-        return data.search.nodes.map((user) => {
-            const { avatarUrl, login, name } = user as User
-            return {
-                avatarUrl,
-                login,
-                name,
-            }
-        })
+
+        const users = transformUserList(data)
+
+        if (users.length === 0) {
+            return null
+        }
+
+        if (users.length === 1) {
+            setUserSelected(true)
+            setShowAutocomplete(false)
+        }
+
+        return <AutocompleteList users={users} handleSelect={handleSelect} handleOutsideClick={handleOutsideClick} />
+    }
+
+    function userExists(login: string, data: SearchUsersQuery | undefined): boolean {
+        return transformUserList(data).some((user: BaseUserInfo) => user.login === login)
     }
 
     return (
@@ -59,19 +70,14 @@ const SearchUsersPage = () => {
                     placeholder='Github user username'
                     mb='2'
                     type='text'
+                    autoComplete='off'
                     value={searchTerm}
-                    onChange={handleChange}
+                    onChange={(e) => handleChange(e, data)}
                     onFocus={(e) => setShowAutocomplete(true)}
                 />
-                {!showAutocomplete && <Button type='submit'>Load user data</Button>}
+                {!showAutocomplete && userExists(searchTerm, data) && <Button type='submit'>Load user data</Button>}
             </FormControl>
-            {data && showAutocomplete && (
-                <AutocompleteList
-                    handleOutsideClick={handleOutsideClick}
-                    handleSelect={handleSelect}
-                    users={mapSearchResults(data)}
-                />
-            )}
+            {createAutoComplete(data)}
         </Container>
     )
 }

@@ -8,7 +8,6 @@ type AutoCompleteListItemProps = BaseUserInfo & {
 const AutocompleteListItem = (props: AutoCompleteListItemProps) => {
     const { avatarUrl, login, name, handleClick } = props
     const handleSelect = (e: React.MouseEvent<HTMLElement>): void => {
-        console.log('handleSelect')
         handleClick(login)
     }
 
