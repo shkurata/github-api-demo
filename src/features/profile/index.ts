@@ -1,2 +1,2 @@
-export * from './GetUserProfile.generated'
-export { default as UserProfilePage } from './userProfilePage'
+export { default as SearchUsersPage } from './SearchUsersPage';
+export * from './profileSlice';
