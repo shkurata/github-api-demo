@@ -1,3 +1,4 @@
+import { CloseIcon } from '@chakra-ui/icons';
 import {
 	Button,
 	Center,
@@ -10,13 +11,12 @@ import {
 	VStack,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
-import AutocompleteList from './components/AutocompleteList';
-import { searchUsers } from './search.service';
-import { UserProfile } from './interfaces';
-import UserProfileDetails from './components/UserProfileDetails';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
+import AutocompleteList from './components/AutocompleteList';
+import UserProfileDetails from './components/UserProfileDetails';
+import { UserProfile } from './interfaces';
 import { getUserProfile, setProfile } from './profileSlice';
-import { CheckIcon, CloseIcon } from '@chakra-ui/icons';
+import { searchUsers } from './search.service';
 
 const SearchUsersPage = () => {
 	const [searchTerm, setSearchTerm] = useState('');
