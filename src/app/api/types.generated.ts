@@ -1028,6 +1028,10 @@ export type BranchProtectionRule = Node & {
   id: Scalars['ID'];
   /** Can admins overwrite branch protection. */
   isAdminEnforced: Scalars['Boolean'];
+  /** Whether users can pull changes from upstream when the branch is locked. Set to `true` to allow fork syncing. Set to `false` to prevent fork syncing. */
+  lockAllowsFetchAndMerge: Scalars['Boolean'];
+  /** Whether to set the branch as read-only. If this is true, users will not be able to push to the branch. */
+  lockBranch: Scalars['Boolean'];
   /** Repository refs that are protected by this rule */
   matchingRefs: RefConnection;
   /** Identifies the protection rule pattern. */
@@ -1036,6 +1040,8 @@ export type BranchProtectionRule = Node & {
   pushAllowances: PushAllowanceConnection;
   /** The repository associated with this branch protection rule. */
   repository?: Maybe<Repository>;
+  /** Whether someone other than the person who last pushed to the branch must approve this pull request */
+  requireLastPushApproval: Scalars['Boolean'];
   /** Number of approving reviews required to update matching branches. */
   requiredApprovingReviewCount?: Maybe<Scalars['Int']>;
   /** List of required status check contexts that must pass for commits to be accepted to matching branches. */
@@ -3033,12 +3039,18 @@ export type CreateBranchProtectionRuleInput = {
   dismissesStaleReviews?: InputMaybe<Scalars['Boolean']>;
   /** Can admins overwrite branch protection. */
   isAdminEnforced?: InputMaybe<Scalars['Boolean']>;
+  /** Whether users can pull changes from upstream when the branch is locked. Set to `true` to allow fork syncing. Set to `false` to prevent fork syncing. */
+  lockAllowsFetchAndMerge?: InputMaybe<Scalars['Boolean']>;
+  /** Whether to set the branch as read-only. If this is true, users will not be able to push to the branch. */
+  lockBranch?: InputMaybe<Scalars['Boolean']>;
   /** The glob-like pattern used to determine matching branches. */
   pattern: Scalars['String'];
   /** A list of User, Team, or App IDs allowed to push to matching branches. */
   pushActorIds?: InputMaybe<Array<Scalars['ID']>>;
   /** The global relay id of the repository in which a new branch protection rule should be created in. */
   repositoryId: Scalars['ID'];
+  /** Whether someone other than the person who last pushed to the branch must approve this pull request */
+  requireLastPushApproval?: InputMaybe<Scalars['Boolean']>;
   /** Number of approving reviews required to update matching branches. */
   requiredApprovingReviewCount?: InputMaybe<Scalars['Int']>;
   /** List of required status check contexts that must pass for commits to be accepted to matching branches. */
@@ -8041,6 +8053,8 @@ export type IssueTemplate = {
   about?: Maybe<Scalars['String']>;
   /** The suggested issue body. */
   body?: Maybe<Scalars['String']>;
+  /** The template filename. */
+  filename: Scalars['String'];
   /** The template name. */
   name: Scalars['String'];
   /** The suggested issue title. */
@@ -14427,6 +14441,11 @@ export enum ProjectNextFieldType {
    */
   Title = 'TITLE',
   /**
+   * Tracked by
+   * @deprecated The `ProjectNext` API is deprecated in favour of the more capable `ProjectV2` API. Follow the ProjectV2 guide at https://github.blog/changelog/2022-06-23-the-new-github-issues-june-23rd-update/, to find a suitable replacement. Removal on 2023-01-01 UTC.
+   */
+  TrackedBy = 'TRACKED_BY',
+  /**
    * Tracks
    * @deprecated The `ProjectNext` API is deprecated in favour of the more capable `ProjectV2` API. Follow the ProjectV2 guide at https://github.blog/changelog/2022-06-23-the-new-github-issues-june-23rd-update/, to find a suitable replacement. Removal on 2023-01-01 UTC.
    */
@@ -14992,6 +15011,8 @@ export enum ProjectV2FieldType {
   Text = 'TEXT',
   /** Title */
   Title = 'TITLE',
+  /** Tracked by */
+  TrackedBy = 'TRACKED_BY',
   /** Tracks */
   Tracks = 'TRACKS'
 }
@@ -19380,6 +19401,8 @@ export type Repository = Node & PackageOwner & ProjectOwner & ProjectV2Recent & 
   forks: RepositoryConnection;
   /** The funding links for this repository */
   fundingLinks: Array<FundingLink>;
+  /** Are discussions available on this repository? */
+  hasDiscussionsEnabled: Scalars['Boolean'];
   /** Indicates if the repository has issues feature enabled. */
   hasIssuesEnabled: Scalars['Boolean'];
   /** Indicates if the repository has the Projects feature enabled. */
@@ -23988,10 +24011,16 @@ export type UpdateBranchProtectionRuleInput = {
   dismissesStaleReviews?: InputMaybe<Scalars['Boolean']>;
   /** Can admins overwrite branch protection. */
   isAdminEnforced?: InputMaybe<Scalars['Boolean']>;
+  /** Whether users can pull changes from upstream when the branch is locked. Set to `true` to allow fork syncing. Set to `false` to prevent fork syncing. */
+  lockAllowsFetchAndMerge?: InputMaybe<Scalars['Boolean']>;
+  /** Whether to set the branch as read-only. If this is true, users will not be able to push to the branch. */
+  lockBranch?: InputMaybe<Scalars['Boolean']>;
   /** The glob-like pattern used to determine matching branches. */
   pattern?: InputMaybe<Scalars['String']>;
   /** A list of User, Team, or App IDs allowed to push to matching branches. */
   pushActorIds?: InputMaybe<Array<Scalars['ID']>>;
+  /** Whether someone other than the person who last pushed to the branch must approve this pull request */
+  requireLastPushApproval?: InputMaybe<Scalars['Boolean']>;
   /** Number of approving reviews required to update matching branches. */
   requiredApprovingReviewCount?: InputMaybe<Scalars['Int']>;
   /** List of required status check contexts that must pass for commits to be accepted to matching branches. */
@@ -25128,6 +25157,8 @@ export type UpdateRepositoryInput = {
   clientMutationId?: InputMaybe<Scalars['String']>;
   /** A new description for the repository. Pass an empty string to erase the existing description. */
   description?: InputMaybe<Scalars['String']>;
+  /** Indicates if the repository should have the discussions feature enabled. */
+  hasDiscussionsEnabled?: InputMaybe<Scalars['Boolean']>;
   /** Indicates if the repository should have the issues feature enabled. */
   hasIssuesEnabled?: InputMaybe<Scalars['Boolean']>;
   /** Indicates if the repository should have the project boards feature enabled. */

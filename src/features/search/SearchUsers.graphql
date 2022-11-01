@@ -1,0 +1,17 @@
+query SearchUsers($query: String!) {
+    search(query: $query, type: USER, first: 10) {
+        __typename
+        nodes {
+            ... on User {
+                __typename
+                login
+                name
+                avatarUrl
+            }
+        }
+        pageInfo {
+            endCursor
+            hasNextPage
+        }
+    }
+}

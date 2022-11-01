@@ -2,23 +2,24 @@
 
 import * as Types from '../../app/api/types.generated';
 
-import { api } from '../../app/api/baseApi';
+import { api } from 'src/app/api/baseApi';
 module.hot?.accept();
 export type GetUserProfileQueryVariables = Types.Exact<{
   login: Types.Scalars['String'];
 }>;
 
 
-export type GetUserProfileQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, avatarUrl: any, email: string, url: any, websiteUrl?: any, repositories: { __typename?: 'RepositoryConnection', totalCount: number } } };
+export type GetUserProfileQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, avatarUrl: any, email: string, url: any, name?: string, websiteUrl?: any, repositories: { __typename?: 'RepositoryConnection', totalCount: number } } };
 
 
 export const GetUserProfileDocument = `
     query GetUserProfile($login: String!) {
   user(login: $login) {
     id
-    avatarUrl(size: 100)
+    avatarUrl(size: 300)
     email
     url
+    name
     websiteUrl
     repositories {
       totalCount
