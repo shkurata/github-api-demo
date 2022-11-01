@@ -4,5 +4,9 @@ export interface UserProfile {
 	name: string;
 	avatarUrl: string;
 	url: string;
-	repositoriesCount: number;
+	email: string;
+	websiteUrl: string;
+	repositories: {
+		totalCount: number;
+	};
 }

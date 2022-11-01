@@ -8,9 +8,16 @@ const searchUsersQuery = gql`
 			nodes {
 				... on User {
 					__typename
+					id
 					login
 					name
-					avatarUrl
+					avatarUrl(size: 100)
+					email
+					url
+					websiteUrl
+					repositories {
+						totalCount
+					}
 				}
 			}
 			pageInfo {
@@ -24,15 +31,21 @@ const searchUsersQuery = gql`
 const endpoint = process.env.REACT_APP_GITHUB_URL as string;
 const authorization = `Bearer ${process.env.REACT_APP_GITHUB_TOKEN}`;
 
-const graphQLClient = new GraphQLClient(endpoint, {
-	headers: { authorization },
-});
+let abortController: AbortController | null = null;
 
 export const searchUsers = async (query: string): Promise<UserProfile[]> => {
-	if (!query) {
-		return [];
+	if (abortController) {
+		abortController.abort();
 	}
-	const variables = { query };
-	const data = await graphQLClient.request(searchUsersQuery, variables);
+
+	abortController = new AbortController();
+
+	const graphQLClient = new GraphQLClient(endpoint, {
+		headers: { authorization },
+		signal: abortController.signal as any,
+	});
+
+	const data = await graphQLClient.request(searchUsersQuery, { query });
+	abortController = null;
 	return data.search.nodes;
 };
