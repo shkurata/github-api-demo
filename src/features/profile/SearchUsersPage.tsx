@@ -1,4 +1,5 @@
 import { CloseIcon } from '@chakra-ui/icons';
+import { Link as ReachLink } from 'react-router-dom';
 import {
 	Button,
 	Center,
@@ -8,6 +9,7 @@ import {
 	Input,
 	InputGroup,
 	InputRightElement,
+	Link,
 	VStack,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
@@ -19,11 +21,11 @@ import { getUserProfile, setProfile } from './profileSlice';
 import { searchUsers } from './search.service';
 
 const SearchUsersPage = () => {
-	const [searchTerm, setSearchTerm] = useState('');
-	const [userList, setUserList] = useState<UserProfile[]>([]);
-	const [showAutocomplete, setShowAutocomplete] = useState(false);
 	const selectedUser = useAppSelector(getUserProfile);
 	const dispatch = useAppDispatch();
+	const [searchTerm, setSearchTerm] = useState(selectedUser?.login || '');
+	const [userList, setUserList] = useState<UserProfile[]>([]);
+	const [showAutocomplete, setShowAutocomplete] = useState(false);
 
 	useEffect(() => {
 		searchUsers(searchTerm)
@@ -104,14 +106,19 @@ const SearchUsersPage = () => {
 				<AutocompleteList
 					users={userList}
 					handleSelect={handleSelect}
-					// handleOutsideClick={() => setShowAutocomplete(false)}
 				/>
 			)}
-			{showDetails() && (
+			{selectedUser && (
 				<VStack>
 					<UserProfileDetails user={selectedUser!} />
 					<Center>
-						<Button type='submit'>Load user repositories</Button>
+						<Link
+							textDecorationLine='none'
+							as={ReachLink}
+							to='/repos'
+						>
+							<Button>Load user repositories</Button>
+						</Link>
 					</Center>
 				</VStack>
 			)}

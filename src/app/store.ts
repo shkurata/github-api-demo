@@ -5,7 +5,10 @@ import { api } from './api/baseApi';
 export const store = configureStore({
 	reducer: {
 		profile: profileReducer,
+		[api.reducerPath]: api.reducer,
 	},
+	middleware: (getDefaultMiddleware) =>
+		getDefaultMiddleware().concat(api.middleware),
 });
 
 export type AppDispatch = typeof store.dispatch;

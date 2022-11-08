@@ -70025,13 +70025,37 @@
 							},
 							{
 								"name": "period",
-								"description": "Filter activities returned to only those that occurred in the most recent specified time period. Set to ALL to avoid filtering by when the activity occurred.",
+								"description": "Filter activities returned to only those that occurred in the most recent specified time period. Set to ALL to avoid filtering by when the activity occurred. Will be ignored if `since` or `until` is given.",
 								"type": {
 									"kind": "ENUM",
 									"name": "SponsorsActivityPeriod",
 									"ofType": null
 								},
 								"defaultValue": "MONTH",
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
+								"name": "since",
+								"description": "Filter activities to those that occurred on or after this time.",
+								"type": {
+									"kind": "SCALAR",
+									"name": "DateTime",
+									"ofType": null
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
+								"name": "until",
+								"description": "Filter activities to those that occurred before this time.",
+								"type": {
+									"kind": "SCALAR",
+									"name": "DateTime",
+									"ofType": null
+								},
+								"defaultValue": null,
 								"isDeprecated": false,
 								"deprecationReason": null
 							}
@@ -108540,7 +108564,7 @@
 					},
 					{
 						"name": "hasDiscussionsEnabled",
-						"description": "Are discussions available on this repository?",
+						"description": "Indicates if the repository has the Discussions feature enabled.",
 						"args": [],
 						"type": {
 							"kind": "NON_NULL",
@@ -112705,6 +112729,22 @@
 							"ofType": {
 								"kind": "SCALAR",
 								"name": "Int",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "hasDiscussionsEnabled",
+						"description": "Indicates if the repository has the Discussions feature enabled.",
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "Boolean",
 								"ofType": null
 							}
 						},
@@ -120701,13 +120741,37 @@
 							},
 							{
 								"name": "period",
-								"description": "Filter activities returned to only those that occurred in the most recent specified time period. Set to ALL to avoid filtering by when the activity occurred.",
+								"description": "Filter activities returned to only those that occurred in the most recent specified time period. Set to ALL to avoid filtering by when the activity occurred. Will be ignored if `since` or `until` is given.",
 								"type": {
 									"kind": "ENUM",
 									"name": "SponsorsActivityPeriod",
 									"ofType": null
 								},
 								"defaultValue": "MONTH",
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
+								"name": "since",
+								"description": "Filter activities to those that occurred on or after this time.",
+								"type": {
+									"kind": "SCALAR",
+									"name": "DateTime",
+									"ofType": null
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
+								"name": "until",
+								"description": "Filter activities to those that occurred before this time.",
+								"type": {
+									"kind": "SCALAR",
+									"name": "DateTime",
+									"ofType": null
+								},
+								"defaultValue": null,
 								"isDeprecated": false,
 								"deprecationReason": null
 							}
@@ -144067,13 +144131,37 @@
 							},
 							{
 								"name": "period",
-								"description": "Filter activities returned to only those that occurred in the most recent specified time period. Set to ALL to avoid filtering by when the activity occurred.",
+								"description": "Filter activities returned to only those that occurred in the most recent specified time period. Set to ALL to avoid filtering by when the activity occurred. Will be ignored if `since` or `until` is given.",
 								"type": {
 									"kind": "ENUM",
 									"name": "SponsorsActivityPeriod",
 									"ofType": null
 								},
 								"defaultValue": "MONTH",
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
+								"name": "since",
+								"description": "Filter activities to those that occurred on or after this time.",
+								"type": {
+									"kind": "SCALAR",
+									"name": "DateTime",
+									"ofType": null
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
+								"name": "until",
+								"description": "Filter activities to those that occurred before this time.",
+								"type": {
+									"kind": "SCALAR",
+									"name": "DateTime",
+									"ofType": null
+								},
+								"defaultValue": null,
 								"isDeprecated": false,
 								"deprecationReason": null
 							}

@@ -1,17 +1,20 @@
 query GetUserRepos($login: String!, $first: Int!, $after: String) {
-    user(login: $login) {
-        repositories(first: $first, privacy: PUBLIC, after: $after) {
-            edges {
-                cursor
-                node {
-                    id
-                    name
-                }
-            }
-            pageInfo {
-                endCursor
-                hasNextPage
-            }
-        }
-    }
+	user(login: $login) {
+		repositories(first: $first, privacy: PUBLIC, after: $after) {
+			nodes {
+				id
+				name
+				description
+				updatedAt
+				primaryLanguage {
+					name
+				}
+			}
+
+			pageInfo {
+				endCursor
+				hasNextPage
+			}
+		}
+	}
 }

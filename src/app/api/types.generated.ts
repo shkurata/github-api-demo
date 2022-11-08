@@ -12819,6 +12819,8 @@ export type OrganizationSponsorsActivitiesArgs = {
 	last?: InputMaybe<Scalars['Int']>;
 	orderBy?: InputMaybe<SponsorsActivityOrder>;
 	period?: InputMaybe<SponsorsActivityPeriod>;
+	since?: InputMaybe<Scalars['DateTime']>;
+	until?: InputMaybe<Scalars['DateTime']>;
 };
 
 /** An account on GitHub, with one or more owners, that has repositories, members and teams. */
@@ -19518,7 +19520,7 @@ export type Repository = Node &
 		forks: RepositoryConnection;
 		/** The funding links for this repository */
 		fundingLinks: Array<FundingLink>;
-		/** Are discussions available on this repository? */
+		/** Indicates if the repository has the Discussions feature enabled. */
 		hasDiscussionsEnabled: Scalars['Boolean'];
 		/** Indicates if the repository has issues feature enabled. */
 		hasIssuesEnabled: Scalars['Boolean'];
@@ -20255,6 +20257,8 @@ export type RepositoryInfo = {
 	descriptionHTML: Scalars['HTML'];
 	/** Returns how many forks there are of this repository in the whole network. */
 	forkCount: Scalars['Int'];
+	/** Indicates if the repository has the Discussions feature enabled. */
+	hasDiscussionsEnabled: Scalars['Boolean'];
 	/** Indicates if the repository has issues feature enabled. */
 	hasIssuesEnabled: Scalars['Boolean'];
 	/** Indicates if the repository has the Projects feature enabled. */
@@ -21785,6 +21789,8 @@ export type SponsorableSponsorsActivitiesArgs = {
 	last?: InputMaybe<Scalars['Int']>;
 	orderBy?: InputMaybe<SponsorsActivityOrder>;
 	period?: InputMaybe<SponsorsActivityPeriod>;
+	since?: InputMaybe<Scalars['DateTime']>;
+	until?: InputMaybe<Scalars['DateTime']>;
 };
 
 /** Entities that can be sponsored through GitHub Sponsors */
@@ -25981,6 +25987,8 @@ export type UserSponsorsActivitiesArgs = {
 	last?: InputMaybe<Scalars['Int']>;
 	orderBy?: InputMaybe<SponsorsActivityOrder>;
 	period?: InputMaybe<SponsorsActivityPeriod>;
+	since?: InputMaybe<Scalars['DateTime']>;
+	until?: InputMaybe<Scalars['DateTime']>;
 };
 
 /** A user is an individual's account on GitHub that owns repositories and can make new content. */
@@ -26515,10 +26523,13 @@ export type GetUserReposQuery = {
 		__typename?: 'User';
 		repositories: {
 			__typename?: 'RepositoryConnection';
-			edges?: Array<{
-				__typename?: 'RepositoryEdge';
-				cursor: string;
-				node?: { __typename?: 'Repository'; id: string; name: string };
+			nodes?: Array<{
+				__typename?: 'Repository';
+				id: string;
+				name: string;
+				description?: string;
+				updatedAt: any;
+				primaryLanguage?: { __typename?: 'Language'; name: string };
 			}>;
 			pageInfo: {
 				__typename?: 'PageInfo';
@@ -27100,7 +27111,7 @@ export const GetUserReposDocument = {
 												kind: 'Field',
 												name: {
 													kind: 'Name',
-													value: 'edges',
+													value: 'nodes',
 												},
 												selectionSet: {
 													kind: 'SelectionSet',
@@ -27109,25 +27120,39 @@ export const GetUserReposDocument = {
 															kind: 'Field',
 															name: {
 																kind: 'Name',
-																value: 'cursor',
+																value: 'id',
 															},
 														},
 														{
 															kind: 'Field',
 															name: {
 																kind: 'Name',
-																value: 'node',
+																value: 'name',
+															},
+														},
+														{
+															kind: 'Field',
+															name: {
+																kind: 'Name',
+																value: 'description',
+															},
+														},
+														{
+															kind: 'Field',
+															name: {
+																kind: 'Name',
+																value: 'updatedAt',
+															},
+														},
+														{
+															kind: 'Field',
+															name: {
+																kind: 'Name',
+																value: 'primaryLanguage',
 															},
 															selectionSet: {
 																kind: 'SelectionSet',
 																selections: [
-																	{
-																		kind: 'Field',
-																		name: {
-																			kind: 'Name',
-																			value: 'id',
-																		},
-																	},
 																	{
 																		kind: 'Field',
 																		name: {

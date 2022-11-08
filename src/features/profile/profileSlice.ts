@@ -29,4 +29,5 @@ export const profileSlice = createSlice<
 
 export const { setProfile } = profileSlice.actions;
 export const getUserProfile = (state: RootState) => state.profile.value;
+export const getUserLogin = (state: RootState) => state.profile.value?.login;
 export const profileReducer = profileSlice.reducer;
